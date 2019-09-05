@@ -1,6 +1,7 @@
 package com.goatsandtigers.mazezam;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
@@ -8,9 +9,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class LevelSelectActivity extends AppCompatActivity {
+
+    private static final String HEADER_TEXT = "Scroll down to see all levels.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +25,23 @@ public class LevelSelectActivity extends AppCompatActivity {
     private void buildLevelSelectRows() {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(4, 4, 0, 0);
+        layout.addView(buildHeaderTextView());
         for (int levelNumber = 0; levelNumber < LevelFileParser.getNumLevels(this); levelNumber++) {
             View row = buildLevelSelectRow(levelNumber);
             layout.addView(row);
         }
-        setContentView(layout);
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.addView(layout);
+        setContentView(scrollView);
+    }
+
+    private TextView buildHeaderTextView() {
+        TextView textView = new TextView(this);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
+        textView.setTypeface(Typeface.DEFAULT_BOLD);
+        textView.setText(HEADER_TEXT);
+        return textView;
     }
 
     private View buildLevelSelectRow(final int rowIndex) {

@@ -6,12 +6,10 @@ import java.util.List;
 public class Level implements Cloneable {
 
     private String title;
-    private String author;
     private List<String> rows;
 
-    public Level(String title, String author, List<String> rows) {
+    public Level(String title, List<String> rows) {
         this.title = title;
-        this.author = author;
         this.rows = rows;
     }
 
@@ -109,6 +107,6 @@ public class Level implements Cloneable {
     }
 
     public Level clone() {
-        return new Level(title, author, new ArrayList<>(rows));
+        return new Level(title, new ArrayList<>(rows));
     }
 }

@@ -10,11 +10,9 @@ import java.util.List;
 
 public class LevelFileParser {
 
-    private static final String AUTHOR_PREFIX = ";;Author: ";
-    private static final String COMMENT_PREFIX = "; ";
-    private static final String LEVEL_FILE = "original.mzm";
+    private static final String COMMENT_PREFIX = ";";
+    private static final String LEVEL_FILE = "levels.mzm";
     private static final String TITLE_PREFIX = ";;Title: ";
-    private static final String VERSION_PREFIX = ";;Version: ";
 
     private static List<Level> levels;
 
@@ -24,7 +22,6 @@ public class LevelFileParser {
         try {
             reader = new BufferedReader(new InputStreamReader(context.getAssets().open(LEVEL_FILE)));
             String title = null;
-            String author = null;
             List<String> rows = null;
             String line;
             while ((line = reader.readLine()) != null) {
@@ -32,13 +29,11 @@ public class LevelFileParser {
                     if (title != null) {
                         rows = ensureHeightDoesNotExceedWidth(rows);
                         rows = ensureWidthDoesNotExceedHeight(rows);
-                        levels.add(new Level(title, author, rows));
+                        levels.add(new Level(title, rows));
                     }
                     title = line.replace(TITLE_PREFIX, "");
                     rows = new ArrayList<>();
-                } else if (line.startsWith(AUTHOR_PREFIX)) {
-                    author = line.replace(AUTHOR_PREFIX, "");
-                } else if (!line.isEmpty() && !line.startsWith(COMMENT_PREFIX) && !line.startsWith(VERSION_PREFIX)) {
+                } else if (!line.isEmpty() && !line.startsWith(COMMENT_PREFIX)) {
                     rows.add(line);
                 }
             }
